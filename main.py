@@ -1,3 +1,5 @@
+# (C) Grupa VP3, 2022
+
 # Moduļi
 import PySimpleGUI as sg
 sg.theme('DarkAmber')
@@ -31,18 +33,13 @@ class Komponente:
 			lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
 			rakstitajs = csv.DictWriter(fails, fieldnames=lauki,delimiter=",")
 			rakstitajs.writerow({"Veids":self.veids, "Razotajs":self.razotajs, "Modelis":self.modelis, "Spec":self.spec, "Cena":self.cena})
-	def lasa(self, faila_vards):
-		with open(faila_vards, "r") as fails:
-			lasitajs = csv.DictReader(fails)
-			for rinda in lasitajs:
-				print(rinda)
-				# Te jāsameklē, kā formā raksta sg.Table
+
 	def redige(self, faila_vards):
 		pass
 	def dzes(self, faila_vards):
 		pass
 class Dators:
-	def __init__(self, atmina, ram, gpu, cpu, mb, bloks, korpuss, cits):
+	def __init__(self, atmina, ram, gpu, cpu, mb, bloks, korpuss):
 		self.atmina = atmina
 		self.ram = ram
 		self.gpu = gpu
@@ -50,7 +47,6 @@ class Dators:
 		self.mb = mb
 		self.bloks = bloks
 		self.korpuss = korpuss
-		self.cits = cits
 	def saglaba(self):
 		with open("dators.csv","w") as fails:
 			lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
@@ -65,7 +61,7 @@ class Dators:
 				print(rinda["Veids"], rinda["Razotajs"], rinda["Modelis"], rinda["Spec"], rinda["Cena"])
 
 # Metodes
-def main():
+def Veca_programma():
 	izkartojums = [  [sg.Text('Komponentes')],
 				   [sg.Text('Veids'), sg.InputText()],
 				   [sg.Text('Ražotājs'), sg.InputText()],
@@ -84,28 +80,77 @@ def main():
 		else:
 			sg.popup('Tu ievadīji', vertibas[0])  
 	logs.close()
+
 	
-def Veca_programma():
+def ievade():
+	print ("Veids", "Razotajs", "Modelis", "Spec", "Cena")
+	veids = input()
+	razotajs = input()
+	modelis = input()
+	spec = input()
+	cena = input()
+	detala = Komponente(veids,razotajs,modelis,spec,cena)
+	return detala
+def lasa():
+	with open("komponentes.csv", "r") as fails:
+		lasitajs = csv.DictReader(fails)
+		skaititajs = 1
+		for rinda in lasitajs:
+			print(skaititajs,"=",rinda)
+			skaititajs += 1
+def dzest(nr):
+	saraksts = []
+	with open("komponentes.csv", "r") as fails:
+		lasitajs = csv.DictReader(fails)
+		for rinda in lasitajs:
+			saraksts.append(rinda)
+		saraksts.pop(nr-1)
+	with open("komponentes.csv","w") as fails1:
+		lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
+		rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
+		rakstitajs.writeheader()
+		for ieraksts in saraksts:
+			rakstitajs.writerow(ieraksts)	
+def labot(nr):
+	saraksts = []
+	with open("komponentes.csv", "r") as fails:
+		lasitajs = csv.DictReader(fails)
+		for rinda in lasitajs:
+			saraksts.append(rinda)
+		print("Labojamā informācija:")
+		print(saraksts[nr-1])
+		saraksts.pop(nr-1)
+		#print(saraksts)
+	with open("komponentes.csv","w") as fails1:
+		lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
+		rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
+		rakstitajs.writeheader()
+		for ieraksts in saraksts:
+			rakstitajs.writerow(ieraksts)		
+	with open("komponentes.csv","w") as fails1:
+		lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
+		rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
+		rakstitajs.writeheader()
+		for ieraksts in saraksts:
+			rakstitajs.writerow(ieraksts)	
+	jdetala = ievade()
+	jdetala.raksta("komponentes.csv")
+def main():
 	print("Labrīt!")
-	d = input("Ievadi dienu: ")
-	diena = Diena(d)
-	diena.dienas_sakums()
-	atverts = True
-	while atverts:
-		v = input("Ievadi vārdu (vai CIET, ja slēdz klubu): ")
-		if v=="CIET":
-			atverts = False
+	while True:
+		print ("1 - skatīt, 2 - pievienot, 3 - labot")
+		v = input("Ievadi izvēli : ")
+		if v == "1":
+			lasa()
+		elif v == "2":
+			meginu = ievade()
+			meginu.raksta("komponentes.csv")
+		elif v == "3":
+			num = int(input("Ievadi detaļas numuru: "))
+			labot(num)
+		else:
 			break
-		if v == "PR":
-			diena.druka()
-			break
-		vec = int(input("Ievadi vecumu: "))
-		cilveks = Persona(v,vec)
-		cilveks.pieraksta(diena.diena+".csv")
 	print("Jauku vakaru!")	
 
 # Programma
-#main()
-#lasa()
-#meginu = Komponente("Incanti","Mode","Raža","Garšviela",7.26)
-#meginu.lasa("komponentes.csv")
+main()

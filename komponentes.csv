@@ -1,34 +1,8 @@
 Veids,Razotajs,Modelis,Spec,Cena
 HDD,Seagate,Barracuda,1TB,35.99
 HDD,Seagate,Barracuda,2TB,79
-HDD,Intenso,,5TB,140
 HDD,Fujitsu,,1TB,71.4
 HDD,Western Digital,Purple Series,2TB,59
 SSD,Western Digital,Blue,500GB,57
-SSD,Samsung,970 EVO Plus,500GB,90.99
-RAM,Corsair,Vengeance LPX,16GB,99
-RAM,Corsair,ValueSelect,4G,27
-RAM,Kingston,HyperX Fury Black,8GB,46
-RAM,Patriot,Viper Steel,64GB,355
-GPU,Gigabyte,GeForce GT 710,2GB,79
-GPU,Asus,TUF Radeon RX 6900 XT,16GB,2625
-GPU,Asus,GeForce GTX 1650,4GB,349
-GPU,Palit,GeForce GT 710,2GB,52
-CPU,AMD,Ryzen 5 3600,3.6GHz,239
-CPU,AMD,Ryzen 7 5800X,3.8GHz,469
-CPU,Intel,i7-10700K,3.8GHz,327
-CPU,Intel,i9-11900,2.5GHz,455
-MB,Gigabyte,B450 AORUS Elite V2,,96.93
-MB,MSI,Z490-A PRO,,165
-MB,Asus,TUF GAMING B460-PLUS,,113.99
-MB,ASRock,B460M Pro4,,100
-PSU,Be Quiet!,System Power 9,500W,54
-PSU,Chieftec,ATX 2.3,600W,45.98
-PSU,Corsair,TX-M Series,750W,110.46
-PSU,Corsair,ATX 2.4,650W,89
-Korpuss,Corsair,iCUE 220T RGB Black,,109
-Korpuss,Aerocool,Cylon Mini RGB Black,,56
-Korpuss,Aerocool,Zauron Mid-Tower ATX Black,,55
-Korpuss,Chieftec,Mini Tower IX-01B-OP,,32
-Disc,Asus,ZenDrive U9M External DVD Writer Silver,,36.3
-Disc,Gembird,External USB CD/DVD Drive,,18.1
+HDD,VP3,Intenso,5TB,140.99
+aaa,aaaa,aaa,aaa,aaa
