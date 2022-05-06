@@ -60,6 +60,35 @@ class Dators:
 			for rinda in lasitajs:
 				print(rinda["Veids"], rinda["Razotajs"], rinda["Modelis"], rinda["Spec"], rinda["Cena"])
 
+class Fails:
+	def __init__ (self):
+		pass
+	def lasa(self,faila_vards):
+		with open(faila_vards, "r") as fails:
+			lasitajs = csv.DictReader(fails)
+			skaititajs = 1
+			for rinda in lasitajs:
+				print(skaititajs,"=",rinda)
+				skaititajs += 1
+	def labot(self,faila_vards,nr):
+		saraksts = []
+		with open(faila_vards, "r") as fails:
+			lasitajs = csv.DictReader(fails)
+			for rinda in lasitajs:
+				saraksts.append(rinda)
+			print("Labojamā informācija:")
+			print(saraksts[nr-1])
+			saraksts.pop(nr-1)
+			#print(saraksts)
+		with open(faila_vards,"w") as fails1:
+			lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
+			rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
+			rakstitajs.writeheader()
+			for ieraksts in saraksts:
+				rakstitajs.writerow(ieraksts)		
+		jdetala = ievade()
+		jdetala.raksta("komponentes.csv")
+		
 # Metodes
 def Veca_programma():
 	izkartojums = [  [sg.Text('Komponentes')],
@@ -91,13 +120,7 @@ def ievade():
 	cena = input()
 	detala = Komponente(veids,razotajs,modelis,spec,cena)
 	return detala
-def lasa():
-	with open("komponentes.csv", "r") as fails:
-		lasitajs = csv.DictReader(fails)
-		skaititajs = 1
-		for rinda in lasitajs:
-			print(skaititajs,"=",rinda)
-			skaititajs += 1
+
 def dzest(nr):
 	saraksts = []
 	with open("komponentes.csv", "r") as fails:
@@ -111,43 +134,22 @@ def dzest(nr):
 		rakstitajs.writeheader()
 		for ieraksts in saraksts:
 			rakstitajs.writerow(ieraksts)	
-def labot(nr):
-	saraksts = []
-	with open("komponentes.csv", "r") as fails:
-		lasitajs = csv.DictReader(fails)
-		for rinda in lasitajs:
-			saraksts.append(rinda)
-		print("Labojamā informācija:")
-		print(saraksts[nr-1])
-		saraksts.pop(nr-1)
-		#print(saraksts)
-	with open("komponentes.csv","w") as fails1:
-		lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
-		rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
-		rakstitajs.writeheader()
-		for ieraksts in saraksts:
-			rakstitajs.writerow(ieraksts)		
-	with open("komponentes.csv","w") as fails1:
-		lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
-		rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
-		rakstitajs.writeheader()
-		for ieraksts in saraksts:
-			rakstitajs.writerow(ieraksts)	
-	jdetala = ievade()
-	jdetala.raksta("komponentes.csv")
+
 def main():
 	print("Labrīt!")
 	while True:
 		print ("1 - skatīt, 2 - pievienot, 3 - labot")
 		v = input("Ievadi izvēli : ")
 		if v == "1":
-			lasa()
+			fails = Fails()
+			fails.lasa("komponentes.csv")
 		elif v == "2":
-			meginu = ievade()
-			meginu.raksta("komponentes.csv")
+			detala = ievade()
+			detala.raksta("komponentes.csv")
 		elif v == "3":
 			num = int(input("Ievadi detaļas numuru: "))
-			labot(num)
+			fails = Fails()
+			fails.labot("komponentes.csv",num)
 		else:
 			break
 	print("Jauku vakaru!")	
