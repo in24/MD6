@@ -7,19 +7,12 @@ import csv
 
 # Klases
 class Izskats:
+	# Jāpastudē https://github.com/PySimpleGUI/PySimpleGUI/issues/775#issuecomment-751258544
 	def __init__(self, logs, izkartojums):
 		# vispārējie
 		self.logs = logs
 		self.izkartojums = izkartojums
-		# lokālie
-		self.notikums = None
-		self.vertibas = None
-		while True:
-			self.notikums, self.vertibas = self.logs.read()
-			if self.notikums == sg.WIN_CLOSED or self.notikums == 'Cancel':
-				break
-			else:
-				sg.popup('Tu ievadīji', self.vertibas[0])   
+
 class Komponente:
 	def __init__(self, veids, modelis, razotajs, spec, cena):
 		self.veids = veids
@@ -32,7 +25,8 @@ class Komponente:
 		with open(faila_vards, "a") as fails:
 			lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
 			rakstitajs = csv.DictWriter(fails, fieldnames=lauki,delimiter=",")
-			rakstitajs.writerow({"Veids":self.veids, "Razotajs":self.razotajs, "Modelis":self.modelis, "Spec":self.spec, "Cena":self.cena})
+			if self.veids != "" or self.razotajs != "" or self.modelis != "" or self.spec != "" or self.cena != "":
+				rakstitajs.writerow({"Veids":self.veids, "Razotajs":self.razotajs, "Modelis":self.modelis, "Spec":self.spec, "Cena":self.cena})
 
 	def redige(self, faila_vards):
 		pass
@@ -82,7 +76,7 @@ class Fails:
 			#print(saraksts)
 		with open(faila_vards,"w") as fails1:
 			lauki = ["Veids", "Razotajs", "Modelis", "Spec", "Cena"]
-			rakstitajs = csv.DictWriter(fails1, fieldnames=lauki,delimiter=",")
+			rakstitajs = csv.DictWriter(fails1, fieldnames=lauki, delimiter=",")
 			rakstitajs.writeheader()
 			for ieraksts in saraksts:
 				rakstitajs.writerow(ieraksts)		
@@ -90,35 +84,30 @@ class Fails:
 		jdetala.raksta("komponentes.csv")
 		
 # Metodes
-def Veca_programma():
-	izkartojums = [  [sg.Text('Komponentes')],
-				   [sg.Text('Veids'), sg.InputText()],
-				   [sg.Text('Ražotājs'), sg.InputText()],
-				   [sg.Text('Modelis'), sg.InputText()],
-				   [sg.Text('Specifikācija'), sg.InputText()],
-				   [sg.Text('Cena'), sg.InputText()],
-				   [sg.Button('Ok'), sg.Button('Cancel')] ]
-	
-	logs = sg.Window('Komponenšu logs', izkartojums)
-
-	#komponentes_izskats = Izskats(izkartojums, logs)
-	while True:
-		notikums, vertibas = logs.read()
-		if notikums == sg.WIN_CLOSED or notikums == 'Cancel':
-			break
-		else:
-			sg.popup('Tu ievadīji', vertibas[0])  
-	logs.close()
-
 	
 def ievade():
-	print ("Veids", "Razotajs", "Modelis", "Spec", "Cena")
-	veids = input()
-	razotajs = input()
-	modelis = input()
-	spec = input()
-	cena = input()
-	detala = Komponente(veids,razotajs,modelis,spec,cena)
+	detala = Komponente("","","","","")
+	izkartojums = [  [sg.Text('Komponentes')],
+				[sg.Text('Veids'), sg.InputText()],
+				[sg.Text('Ražotājs'), sg.InputText()],
+				[sg.Text('Modelis'), sg.InputText()],
+				[sg.Text('Specifikācija'), sg.InputText()],
+				[sg.Text('Cena'), sg.InputText()],
+				[sg.Button('Ok'), sg.Button('Exit')] ]	
+	logs = sg.Window('Komponenšu logs', izkartojums)
+	while True:
+		notikums, vertibas = logs.read()
+		if notikums == sg.WIN_CLOSED or notikums == 'Exit':
+			break
+		sg.popup('Tu ievadīji', vertibas)  
+	#print ("Veids", "Razotajs", "Modelis", "Spec", "Cena")
+		veids = vertibas[0]
+		razotajs = vertibas[1]
+		modelis = vertibas[2]
+		spec = vertibas[3]
+		cena = vertibas[4]
+		detala = Komponente(veids,razotajs,modelis,spec,cena)
+	logs.close()
 	return detala
 
 def dzest(nr):
@@ -153,6 +142,6 @@ def main():
 		else:
 			break
 	print("Jauku vakaru!")	
-
+	
 # Programma
 main()
