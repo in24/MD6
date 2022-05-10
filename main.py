@@ -166,5 +166,3 @@ def main():
 			fails.labot("komponentes.csv",num)
 	s_logs.close()	
 # Programma
-
-main()
