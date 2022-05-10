@@ -124,7 +124,7 @@ def dzest(nr):
 		for ieraksts in saraksts:
 			rakstitajs.writerow(ieraksts)	
 
-def main():
+def mainconsole():
 	print("Labrīt!")
 	while True:
 		print ("1 - skatīt, 2 - pievienot, 3 - labot")
@@ -142,6 +142,27 @@ def main():
 		else:
 			break
 	print("Jauku vakaru!")	
-	
+def main():
+	# Uzskaita visus objektus logā: teksta uzrakstus, ievades logu, pogas
+	p_izkartojums = [  [sg.Text('Izvēlies, ko darīsi:')],
+				   [sg.Button('Skatīt'), sg.Button('Ievadīt'), sg.Button('Labot'), sg.Button('Exit')] ]
+	# Izveido logu
+	s_logs = sg.Window('Galvenā izvēlne', p_izkartojums)
+	# Cikls apstrādā notikumus un iegūst ievades vērtības
+	while True:
+		notik, vert = s_logs.read()
+		if notik == sg.WIN_CLOSED or notik == 'Exit':
+			break
+		if notik == 'Skatīt':
+			fails = Fails()
+			fails.lasa("komponentes.csv")
+		if notik == 'Ievadīt':
+			detala = ievade()
+			detala.raksta("komponentes.csv")
+		if notik == 'Labot':
+			num = int(input("Ievadi detaļas numuru: "))
+			fails = Fails()
+			fails.labot("komponentes.csv",num)
+	s_logs.close()	
 # Programma
 main()
