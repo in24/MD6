@@ -7,7 +7,6 @@ import csv
 
 # Klases
 class Izskats:
-	# Jāpastudē https://github.com/PySimpleGUI/PySimpleGUI/issues/775#issuecomment-751258544
 	def __init__(self, logs, izkartojums):
 		# vispārējie
 		self.logs = logs
@@ -72,6 +71,7 @@ class Fails:
 				saraksts.append(rinda)
 			print("Labojamā informācija:")
 			print(saraksts[nr-1])
+			tekstins=str(saraksts[nr-1])
 			saraksts.pop(nr-1)
 			#print(saraksts)
 		with open(faila_vards,"w") as fails1:
@@ -80,14 +80,14 @@ class Fails:
 			rakstitajs.writeheader()
 			for ieraksts in saraksts:
 				rakstitajs.writerow(ieraksts)		
-		jdetala = ievade()
+		jdetala = ievade(tekstins)
 		jdetala.raksta("komponentes.csv")
 		
 # Metodes
 	
-def ievade():
+def ievade(teksts):
 	detala = Komponente("","","","","")
-	izkartojums = [  [sg.Text('Komponentes')],
+	izkartojums = [  [sg.Text(teksts)],
 				[sg.Text('Veids'), sg.InputText()],
 				[sg.Text('Ražotājs'), sg.InputText()],
 				[sg.Text('Modelis'), sg.InputText()],
@@ -145,7 +145,8 @@ def mainconsole():
 def main():
 	# Uzskaita visus objektus logā: teksta uzrakstus, ievades logu, pogas
 	p_izkartojums = [  [sg.Text('Izvēlies, ko darīsi:')],
-				   [sg.Button('Skatīt'), sg.Button('Ievadīt'), sg.Button('Labot'), sg.Button('Exit')] ]
+				   [sg.Button('Skatīt'), sg.Button('Ievadīt'), sg.Button('Labot'), sg.Button('Exit')] ,
+	[sg.Text('Labojamā ieraksta nr:'), sg.InputText(key='num', size=(7,1))]]
 	# Izveido logu
 	s_logs = sg.Window('Galvenā izvēlne', p_izkartojums)
 	# Cikls apstrādā notikumus un iegūst ievades vērtības
@@ -157,12 +158,13 @@ def main():
 			fails = Fails()
 			fails.lasa("komponentes.csv")
 		if notik == 'Ievadīt':
-			detala = ievade()
+			detala = ievade("Komponentes")
 			detala.raksta("komponentes.csv")
 		if notik == 'Labot':
-			num = int(input("Ievadi detaļas numuru: "))
+			num = int(vert['num'])
 			fails = Fails()
 			fails.labot("komponentes.csv",num)
 	s_logs.close()	
 # Programma
+
 main()
